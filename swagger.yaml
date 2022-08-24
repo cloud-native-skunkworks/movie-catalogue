@@ -1,0 +1,152 @@
+openapi: 3.0.3
+info:
+  title: Movie Data API
+  version: 0.0.1
+servers:
+  - url: http://localhost/api/v3
+paths:
+  /movie:
+    post:
+      summary: Upload a movie directly via the API
+      operationId: uploadMovie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              items:
+                $ref: '#/components/schemas/movie'
+      responses:
+        '200':
+          description: Movie uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/movie'
+        '400':
+          description: Invalid movie data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /movies/year/{year}:
+    get:
+      summary: Get Movies by year
+      description: Get movie by year
+      operationId: getMovieByYear
+      parameters:
+        - name: year
+          in: path
+          description: Return movies by year
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '404':
+          description: Not found
+        '200':
+          description: OK
+  /movies/castmember/{castmember}:
+    get:
+      summary: Get Movies by cast member
+      description: Get movie by cast member
+      operationId: getMovieByCastMember
+      parameters:
+        - name: castmember
+          in: path
+          description: Return movies by Cast Members
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Not found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/movie'
+  /movies/name/{name}:
+    get:
+      summary: Get Movies by name
+      description: Get movie by name
+      operationId: getMovieByName
+      parameters:
+        - name: name
+          in: path
+          description: Return movies by Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Not found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/movie'  
+  /movies/genre/{genre}:
+    get:
+      summary: Get Movies by genre
+      description: Get movie by genre
+      operationId: getMovieBygenre
+      parameters:
+        - name: genre
+          in: path
+          description: Return movies by genre
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          description: Not found
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/movie'  
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        message:
+          type: string
+    movie: 
+      type: object
+      required:
+      - title
+      - year
+      - cast
+      - genres
+      properties: 
+        title: 
+          type: string
+        year: 
+          type: integer
+          format: int32
+        cast: 
+          type: array
+          items: 
+            type: string
+        genres: 
+          type: array
+          items: 
+            type: string
