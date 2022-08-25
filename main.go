@@ -1,4 +1,4 @@
-//go:generate oapi-codegen --package api --old-config-style --generate "types,server,spec" swagger.yaml > server.generated.go
+//go:generate scripts/generate-openapi.sh
 package main
 
 import (
